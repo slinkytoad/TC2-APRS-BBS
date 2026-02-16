@@ -157,6 +157,11 @@ Copy they service file from this directory to the systemd folder
 sudo cp TC2-APRS-BBS.service /etc/systemd/system/TC2-APRS-BBS.service
 ```
 
+Edit the file to change `{user}` to the user you are using, this needs to be changed on the `WorkingDirectory` and `ExecStart` Lines
+```
+sudo nano /etc/systemd/system/TC2-APRS-BBS.service
+```
+
 Reload systemd
 ```
 sudo systemctl daemon-reload
