@@ -97,6 +97,37 @@ def send_ack(ki, aprs_frame):
         print(f"Failed to send ACK: {e}")
 
 
+def send_startup_announcement():
+    """Send an APRS announcement that the BBS is starting up and ready for operation."""
+    try:
+        startup_message = f"BBS ONLINE - {config.TACTICAL_CALL} ready for messages"
+        bulletin_id = "BLN0STRT"  # Standard bulletin format for startup
+        
+        message_number = get_next_message_number()
+        formatted_bulletin = f"{startup_message} - {message_number}"
+
+        frame_info = f":{bulletin_id:<9}:{formatted_bulletin}".encode('utf-8')
+        frame = aprs.APRSFrame.ui(
+            destination=config.STANDARD_CALL,
+            source=config.TACTICAL_CALL,
+            path=config.APRS_PATH,
+            info=frame_info
+        )
+
+        if config.KISS_INTERFACE == "SERIAL":
+            ki = aprs.SerialKISS(port=config.SERIAL_PORT, speed=config.SERIAL_BAUDRATE)
+        else:
+            ki = aprs.TCPKISS(host=config.KISS_HOST, port=config.KISS_PORT)
+
+        ki.start()
+        ki.write(frame)
+        print(f"Startup announcement transmitted: {startup_message}")
+        ki.stop()
+
+    except Exception as e:
+        print(f"Failed to send startup announcement: {e}")
+
+
 def send_bulletin(bulletin_id, bulletin_text):
     """Send an APRS bulletin in BLN format."""
     try:

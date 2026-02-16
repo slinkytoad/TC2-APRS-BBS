@@ -47,6 +47,11 @@ def main():
     signal.signal(signal.SIGTERM, signal_handler)  # kill command
 
     print("Starting APRS communications...")
+    
+    # Send startup announcement to indicate BBS is online
+    print("Sending startup announcement...")
+    aprs_comm.send_startup_announcement()
+    
     aprs_comm.start()
 
     return 0
