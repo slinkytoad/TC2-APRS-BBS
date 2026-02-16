@@ -152,5 +152,22 @@ Example: ```PU Highway 12 closed. Use alternate routes.```
 
 ## Automatically run at boot
 
-Instructions coming soon....
+Copy they service file from this directory to the systemd folder
+```
+sudo cp TC2-APRS-BBS.service /etc/systemd/system/TC2-APRS-BBS.service
+```
 
+Reload systemd
+```
+sudo systemctl daemon-reload
+```
+
+Enable the service
+```
+sudo systemctl enable TC2-APRS-BBS.service
+```
+
+Start the service
+```
+sudo systemctl start TC2-APRS-BBS.service
+```

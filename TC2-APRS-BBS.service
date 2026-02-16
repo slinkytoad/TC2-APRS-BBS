@@ -1,0 +1,15 @@
+[Unit]
+Description=TC2-BBS APRS Version
+After=network.target
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=20
+User=patrick
+Group=patrick
+WorkingDirectory=/home/{user}/TC2-APRS-BBS
+ExecStart=/home/{user}/TC2-APRS-BBS/venv/bin/python3 /home/{user}/TC2-APRS-BBS/main.py
+
+[Install]
+WantedBy=multi-user.target
