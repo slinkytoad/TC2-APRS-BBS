@@ -93,7 +93,7 @@ def send_bulletin(bulletin_id, bulletin_text):
     """Send an APRS bulletin in BLN format."""
     try:
         message_number = get_next_message_number()
-        formatted_bulletin = f"{bulletin_text}{message_number}"
+        formatted_bulletin = f"{bulletin_text} - {message_number}"
 
         frame_info = f":{bulletin_id:<9}:{formatted_bulletin}".encode('utf-8')
         frame = aprs.APRSFrame.ui(
@@ -213,7 +213,7 @@ def start():
                     for response in responses:
                         dec_timestamp = datetime.now().strftime("%b%d %H:%M")
                         message_number = get_next_message_number()
-                        formatted_response = f"{response}{{{message_number}"
+                        formatted_response = f"{response} - {message_number}"
 
                         response_info = f":{source:<9}:{formatted_response}".encode('utf-8')
                         response_frame = aprs.APRSFrame.ui(
@@ -235,7 +235,7 @@ def send_direct_message(recipient, message):
     """Send a direct APRS message to a recipient without ACK request."""
     try:
         message_number = get_next_message_number()
-        formatted_message = f"{message}{message_number}"
+        formatted_message = f"{message} - {message_number}"
 
         frame_info = f":{recipient:<9}:{formatted_message}".encode('utf-8')
 
