@@ -104,10 +104,9 @@ def send_startup_announcement():
         bulletin_id = "BLN0STRT"  # Standard bulletin format for startup
         
         message_number = get_next_message_number()
-        formatted_bulletin = f"{startup_message} - {message_number}"
 
-        frame_info = f":{bulletin_id:<9}:{formatted_bulletin}".encode('utf-8')
-        frame = aprs.APRSFrame.ui(
+        frame_info = f":{bulletin_id:<9}:{startup_message}".encode('utf-8')
+        frame = aprs.APRSFrame.ui(      
             destination=config.STANDARD_CALL,
             source=config.TACTICAL_CALL,
             path=config.APRS_PATH,
