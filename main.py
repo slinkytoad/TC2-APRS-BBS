@@ -20,6 +20,7 @@ def scheduled_cleanup():
 def signal_handler(signum, frame):
     print(f"Received signal {signum}. Shutting down...")
     aprs_comm.shutdown()
+    sys.exit(0)
 
 def main():
     banner = """
