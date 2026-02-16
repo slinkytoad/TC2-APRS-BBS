@@ -159,10 +159,10 @@ def send_bulletin(bulletin_id, bulletin_text):
 def start():
     if config.KISS_INTERFACE == "SERIAL":
         ki = aprs.SerialKISS(port=config.SERIAL_PORT, speed=config.SERIAL_BAUDRATE)
-        print(f"Starting APRS in SERIAL mode on {config.SERIAL_PORT} at {config.SERIAL_BAUDRATE} baud...")
+        #print(f"Starting APRS in SERIAL mode on {config.SERIAL_PORT} at {config.SERIAL_BAUDRATE} baud...")
     else:
         ki = aprs.TCPKISS(host=config.KISS_HOST, port=config.KISS_PORT)
-        print("Starting APRS in TCP mode...")
+        #print("Starting APRS in TCP mode...")
 
     ki.start()
 
