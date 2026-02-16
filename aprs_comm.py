@@ -54,7 +54,7 @@ def shutdown():
         ki.write(frame)
         print(f"Shutdown announcement transmitted: {shutdown_message}")
         ki.stop()
-        time.sleep(0.5)  # Brief delay to ensure message is sent
+        time.sleep(5)  # Brief delay to ensure message is sent
         
     except Exception as e:
         print(f"Failed to send shutdown announcement: {e}")
