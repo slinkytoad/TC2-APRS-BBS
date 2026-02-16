@@ -32,34 +32,6 @@ def shutdown():
     """Signal the APRS loop to shut down."""
     print("Shutdown signal received. Stopping APRS communications...")
     
-    # Send shutdown announcement
-    try:
-        shutdown_message = f"BBS OFFLINE - {config.TACTICAL_CALL} shutting down"
-        bulletin_id = "BLN0STOP"  # Standard bulletin format for shutdown
-
-        frame_info = f":{bulletin_id:<9}:{shutdown_message}".encode('utf-8')
-        frame = aprs.APRSFrame.ui(      
-            destination=config.STANDARD_CALL,
-            source=config.TACTICAL_CALL,
-            path=config.APRS_PATH,
-            info=frame_info
-        )
-
-        if config.KISS_INTERFACE == "SERIAL":
-            ki = aprs.SerialKISS(port=config.SERIAL_PORT, speed=config.SERIAL_BAUDRATE)
-        else:
-            ki = aprs.TCPKISS(host=config.KISS_HOST, port=config.KISS_PORT)
-
-        ki.start()
-        ki.write(frame)
-        print(f"Shutdown announcement transmitted: {shutdown_message}")
-        ki.stop()
-        time.sleep(.5)  # Brief delay to ensure message is sent
-        
-        
-    except Exception as e:
-        print(f"Failed to send shutdown announcement: {e}")
-    
     shutdown_event.set()
 
 def fetch_device_data():

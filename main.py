@@ -20,7 +20,6 @@ def scheduled_cleanup():
 def signal_handler(signum, frame):
     print(f"Received signal {signum}. Shutting down...")
     aprs_comm.shutdown()
-    time.sleep(5)  # Brief delay to ensure message is sent
     sys.exit(0)
 
 def main():
