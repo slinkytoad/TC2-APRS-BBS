@@ -3,6 +3,9 @@ import aprs_comm
 import threading
 import time
 
+import signal
+import sys
+
 
 def scheduled_cleanup():
     """Periodically run cleanup of expired bulletins."""
@@ -13,6 +16,10 @@ def scheduled_cleanup():
         except Exception as e:
             print(f"Error during cleanup: {e}")
         time.sleep(24 * 60 * 60)  # Run cleanup every 24 hours
+
+def signal_handler(signum, frame):
+    print(f"Received signal {signum}. Shutting down...")
+    aprs_comm.shutdown()
 
 def main():
     banner = """
@@ -34,8 +41,14 @@ def main():
     cleanup_thread = threading.Thread(target=scheduled_cleanup, daemon=True)
     cleanup_thread.start()
 
+    print("Setting up signal handlers...")
+    signal.signal(signal.SIGINT, signal_handler)   # Ctrl+C
+    signal.signal(signal.SIGTERM, signal_handler)  # kill command
+
     print("Starting APRS communications...")
     aprs_comm.start()
+
+    return 0
 
 if __name__ == "__main__":
     main()

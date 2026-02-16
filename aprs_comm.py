@@ -22,8 +22,16 @@ unack_lock = Lock()
 message_counter = 1
 message_lock = threading.Lock()
 
+# Global flag to indicate shutdown
+shutdown_event = threading.Event()
+
 
 JSON_URL = "https://aprs-deviceid.aprsfoundation.org/tocalls.pretty.json"
+
+def shutdown():
+    """Signal the APRS loop to shut down."""
+    print("Shutdown signal received. Stopping APRS communications...")
+    shutdown_event.set()
 
 def fetch_device_data():
     local_file = "tocalls_cache.json"
@@ -148,6 +156,10 @@ def start():
     print(f"BBS Callsign: {my_callsign}")
 
     while True:
+        if shutdown_event.is_set():
+            print("Shutdown event set. Exiting APRS loop.")
+            ki.stop()
+            break
         for frame in ki.read(min_frames=1):
             try:
                 if config.RAW_PACKET_DISPLAY:
